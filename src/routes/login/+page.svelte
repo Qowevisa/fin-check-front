@@ -1,5 +1,7 @@
 <script>
   import { login } from "$lib/api";
+  import { addSuccessToast } from "$lib/components/store";
+  import Toasts from "$lib/components/Toasts.svelte";
   let username = $state("");
   let password = $state("");
   let error = $state("");
@@ -13,7 +15,7 @@
     }
     try {
       const resp = await login(username, password);
-      console.log("Login successful!1");
+      addSuccessToast("Login successful!");
       console.log(resp);
     } catch (err) {
       if (err instanceof Error) {
@@ -27,6 +29,7 @@
   $inspect("password = ", password);
 </script>
 
+<Toasts />
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
     <h1 class="text-2xl font-bold text-center mb-6">Login</h1>
