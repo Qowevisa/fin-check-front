@@ -1,5 +1,4 @@
 <script>
-  import { login } from "$lib/api";
   import { addSuccessToast } from "$lib/components/store";
   import Toasts from "$lib/components/Toasts.svelte";
   let username = $state("");
@@ -14,8 +13,18 @@
       return;
     }
     try {
-      const resp = await login(username, password);
+      const resp = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "App-Token": import.meta.env.VITE_AUTH_APP_TOKEN,
+        },
+        body: JSON.stringify({ username, password }),
+        credentials: "include", // Important to send cookies with requests
+      });
       addSuccessToast("Login successful!");
+      // setToken(resp.token);
+      // goto("/test");
       console.log(resp);
     } catch (err) {
       if (err instanceof Error) {
@@ -25,8 +34,6 @@
       }
     }
   }
-  $inspect("username = ", username);
-  $inspect("password = ", password);
 </script>
 
 <Toasts />

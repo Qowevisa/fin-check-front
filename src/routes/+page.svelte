@@ -1,5 +1,6 @@
-<h1>Welcome to SvelteKit1</h1>
 <p>
-  Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the
-  documentation123213
+  <a href="/ping">ping</a>
+  <a href="/test">test</a>
+  <a href="/test2">test2</a>
+  <a href="/login">login</a>
 </p>

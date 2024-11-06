@@ -1,7 +1,7 @@
 // src/lib/api.ts
 
 // Define the base URL of your API
-const BASE_API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3111/api';
+const BASE_API_URL = import.meta.env.VITE_API_BASE_URL_SERVER || 'http://localhost:3111/api';
 
 // Interface for the login response
 interface LoginResponse {
@@ -20,6 +20,7 @@ interface UserData {
 // Generic function for making API requests
 export async function apiFetch<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${BASE_API_URL}${endpoint}`;
+  console.log("Fetching ", url)
 
   const defaultHeaders = {
     'Content-Type': 'application/json',
@@ -57,6 +58,7 @@ export async function login(username: string, password: string): Promise<LoginRe
 // Get user data function with type annotation for the response
 export async function getUserData(token: string): Promise<UserData> {
   return apiFetch<UserData>('/user/me', {
+    credentials: 'include',
     headers: { Authorization: `Bearer ${token}` },
   });
 }
