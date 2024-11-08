@@ -1,8 +1,9 @@
 // src/routes/api/auth/login/+server.ts
 import { json } from '@sveltejs/kit';
 import { login } from '$lib/api';
+import type { PageServerLoad } from '../../../test2/$types';
 
-export async function POST({ request, cookies }) {
+export const POST: PageServerLoad = async ({ request, cookies }) => {
   console.log("in POST1")
   const authToken = request.headers.get('App-Token');
   console.log("authToken = ", authToken)
@@ -22,7 +23,7 @@ export async function POST({ request, cookies }) {
     console.log("in POST5")
     return json({ id: loginResponse.id, name: loginResponse.name });
   } catch (error) {
-    return json({ error: error.message }, { status: 401 });
+    return json({ error: error }, { status: 401 });
   }
 }
 
