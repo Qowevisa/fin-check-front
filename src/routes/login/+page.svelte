@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   import { addSuccessToast } from "$lib/components/store";
   import Toasts from "$lib/components/Toasts.svelte";
   let username = $state("");
@@ -23,8 +24,7 @@
         credentials: "include", // Important to send cookies with requests
       });
       addSuccessToast("Login successful!");
-      // setToken(resp.token);
-      // goto("/test");
+      goto("/");
       console.log(resp);
     } catch (err) {
       if (err instanceof Error) {
