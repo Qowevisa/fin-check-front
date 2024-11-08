@@ -73,6 +73,10 @@ interface UserData {
   name: string;
 }
 
+interface ErrorMessage {
+  message: string;
+}
+
 // Generic function for making API requests
 export async function apiFetch<T>(
   endpoint: string,
@@ -114,7 +118,7 @@ export async function apiFetch<T>(
     return await response.json() as T;
   } catch (error) {
     console.error(`API fetch error: ${error}`);
-    throw error;
+    throw error as ErrorMessage;
   }
 }
 
