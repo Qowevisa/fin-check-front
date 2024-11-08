@@ -16,21 +16,11 @@ export async function POST({ request, cookies }) {
   console.log("in POST3")
   try {
     console.log("in POST4")
-    const loginResponse = await login(username, password); // Call the backend login
+    const loginResponse = await login(username, password, cookies);
     console.log("loginResponse = ", loginResponse)
 
-    const session = loginResponse.headers.get("Set-Cookie");
-
-    // Set cookie securely on the server
-    cookies.set('session', loginResponse.token, {
-      httpOnly: true, // Prevents JavaScript access
-      secure: process.env.NODE_ENV === 'production', // Only send over HTTPS in production
-      sameSite: 'Strict', // Ensures the cookie is only sent in a first-party context
-      maxAge: 3600 // Expiry time in seconds (e.g., 1 hour)
-    });
-
     console.log("in POST5")
-    return json({ id: loginResponse.id, name: loginResponse.name }); // Return necessary data
+    return json({ id: loginResponse.id, name: loginResponse.name });
   } catch (error) {
     return json({ error: error.message }, { status: 401 });
   }
