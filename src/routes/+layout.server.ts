@@ -5,7 +5,6 @@ export const load: LayoutServerLoad = async ({ url, fetch, cookies }) => {
   if (url.pathname == "/login") {
     return
   }
-  console.log("what?")
   const response = await fetch("https://api.fin.qowevisa.click/api/authping");
 
   if (!response.ok) {
