@@ -20,6 +20,14 @@ export interface Card {
   name: string;
 }
 
+export const EntityTypes = {
+  card: "Card",
+  type: "Type"
+} as const;
+
+export type EntityName = keyof typeof EntityTypes;
+export type EntityType<T extends EntityName> = T extends "card" ? Card : Type;
+
 //
 // }}}
 //

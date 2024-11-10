@@ -1,18 +1,25 @@
 import type { ErrorMessage } from "$lib/api";
-import { update, type Card } from "$lib/entities";
+import { remove, EntityTypes, type EntityName } from "$lib/entities";
 import type { RequestHandler } from "./$types";
 
 function isErrorMessage(value: any): value is ErrorMessage {
   return value && typeof value.message === 'string';
 }
 
-export const PUT: RequestHandler = async ({ request, cookies }): Promise<Response> => {
+export const DELETE: RequestHandler = async ({ request, cookies, params }): Promise<Response> => {
   const session = cookies.get('session')
+  const { entity } = params;
+
   if (!session) {
     throw new Response(JSON.stringify("no cookies"), { status: 401 })
   }
-  const data: Card = await request.json();
-  const result = await update<Card>("card", data.id, data, session);
+
+  if (!(entity in EntityTypes)) {
+    return new Response(JSON.stringify("Invalid entity"), { status: 400 });
+  }
+
+  const { id }: { id: number } = await request.json();
+  const result = await remove(entity as EntityName, id, session);
   if (isErrorMessage(result)) {
     return new Response(JSON.stringify(result), { status: 500 })
   }
