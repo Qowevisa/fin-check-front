@@ -18,7 +18,7 @@
   });
 
   async function fetchCards() {
-    const result = await fetch("/api/card/all", { credentials: "same-origin" });
+    const result = await fetch("/api/card/all");
     if (!result.ok) {
       const obj = await result.json();
       error = obj.message;
