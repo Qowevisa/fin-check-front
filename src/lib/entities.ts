@@ -125,7 +125,7 @@ export async function update<T>(groupName: string, id: number, data: T, session?
   }
 }
 
-export async function remove<T>(groupName: string, id: number, session?: string): Promise<T | ErrorMessage> {
+export async function remove(groupName: string, id: number, session?: string): Promise<Message | ErrorMessage> {
   const url = `${BASE_API_URL}/${groupName}/delete/${id}`
   const defaultHeaders = {
     'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ export async function remove<T>(groupName: string, id: number, session?: string)
     if (!response.ok) {
       throw new Error(`Failed to delete ${groupName}: ${response.statusText}`);
     }
-    return await response.json() as T;
+    return await response.json() as Message;
   } catch (err) {
     const error = err as Error
     return { message: error.message };
