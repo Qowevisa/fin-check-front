@@ -73,8 +73,12 @@ interface UserData {
   name: string;
 }
 
-interface ErrorMessage {
+export interface ErrorMessage {
   message: string;
+}
+
+export interface Message {
+  info: string;
 }
 
 // Generic function for making API requests
