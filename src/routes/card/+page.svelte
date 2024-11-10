@@ -5,12 +5,12 @@
   let cards: Card[] = $state([]);
   let error: string | null = $state(null);
   let editingCard: Card | null = $state(null);
-  let newCard: Partial<Card> = {
+  let newCard: Partial<Card> = $state({
     balance: 0,
     credit_line: 0,
     have_credit_line: false,
     name: "",
-  };
+  });
 
   // Fetch all cards on page load
   onMount(async () => {
