@@ -20,13 +20,24 @@ export interface Card {
   name: string;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+  parent_id: number;
+}
+
 export const EntityTypes = {
   card: "Card",
-  type: "Type"
+  type: "Type",
+  category: "Category",
 } as const;
 
 export type EntityName = keyof typeof EntityTypes;
-export type EntityType<T extends EntityName> = T extends "card" ? Card : Type;
+export type EntityType<T extends EntityName> =
+  T extends "card" ? Card :
+  T extends "type" ? Type :
+  T extends "category" ? Category :
+  never;
 
 //
 // }}}
