@@ -26,6 +26,10 @@
     {
     Path: "/card",
     Name: "Cards",
+    },
+    {
+    Path: "/type",
+    Name: "Types",
     }
   ]
 </script>
