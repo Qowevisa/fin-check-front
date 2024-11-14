@@ -112,11 +112,13 @@
       </label>
       <label class="block">
         <span class="text-gray-700">Color:</span>
-        <ColorPicker
-          on:change={handleColorChange}
-          bind:color={currentType.color}
-          borderRadius="50%"
-        />
+        <div class="block" style="padding-left: 0.375em; width: 40px;">
+          <ColorPicker
+            on:change={handleColorChange}
+            bind:color={currentType.color}
+            borderRadius="50%"
+          />
+        </div>
       </label>
       <div class="flex space-x-2">
         <button
