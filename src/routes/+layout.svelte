@@ -3,13 +3,9 @@
 	let { children } = $props();
   import { page } from '$app/stores';
   const currentPath = $derived($page.url.pathname);
-  // import { goto } from '$app/navigation';
+  import {selectedDate} from "$lib/stores/dateStore"
+  import UserIcon from '$lib/icons/UserIcon.svelte';
 
-  // $effect(()=>{
-  //   if (!isAuthenticated && $page.url.pathname != "/login"){ 
-  //     // goto("/login")
-  //   }
-  // });
   const paths = [
     {
     Path: "/ping",
@@ -41,15 +37,24 @@
 {#if $page.url.pathname != "/login"}
   <nav class="bg-gray-900 p-4 flex justify-between items-center">
     <div class="flex flex-col space-y-2 w-full">
-      <!-- <div class="flex flex-grow justify-center px-4"> -->
-      <!--   <input type="text" placeholder="Search" class="w-2/5 bg-gray-800 text-gray-400 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"> -->
-      <!-- </div> -->
-      <!-- <div class="border-t border-gray-700 my-2"></div> -->
       <div class="flex text-white space-x-4">
         {#each paths as path}
           <a class="button-link {currentPath === path.Path ? 'onPath' : ''}" href="{path.Path}">{path.Name}</a>
         {/each}
       </div>
+    </div>
+    <div class="flex items-center space-x-4">
+      <label class="text-white">
+        Select Date:
+        <input
+          type="date"
+          bind:value={$selectedDate}
+          class="bg-gray-800 text-white p-2 rounded-md border border-gray-700"
+        />
+      </label>
+      <button class="bg-gray-700 text-white p-2 rounded-full">
+        <UserIcon width="1.5em" height="1.5em" color="#f0f0f0"/>
+      </button>
     </div>
   </nav>
 {/if}
