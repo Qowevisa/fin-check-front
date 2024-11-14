@@ -1,7 +1,11 @@
-<script>
+<script lang="ts">
+  import ColorPicker from "$lib/components/ColorPicker.svelte";
   import { addSuccessToast } from "$lib/components/store";
   import Toasts from "$lib/components/Toasts.svelte";
+  import { selectedDate } from "$lib/stores/dateStore";
+
   let { data } = $props();
+  let selectedColor = $state("#ff0000");
 
   function testNotification() {
     console.log("Tested!");
@@ -19,6 +23,10 @@
 
   async function test3() {
     console.log(data);
+  }
+
+  function handleColorChange(event: CustomEvent) {
+    selectedColor = event.detail;
   }
 </script>
 
@@ -43,4 +51,8 @@
   >
     Click Me3!
   </button>
+  <ColorPicker on:change={handleColorChange} borderRadius="50%" />
+  <p>Selected color: {selectedColor}</p>
+  <h1>Selected Date</h1>
+  <p>The date you selected in the navbar is: {$selectedDate}</p>
 </div>
