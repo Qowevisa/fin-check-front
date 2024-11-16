@@ -30,6 +30,10 @@
     {
     Path: "/category",
     Name: "Categories",
+    },
+    {
+    Path: "/expense",
+    Name: "Expense",
     }
   ]
 </script>
