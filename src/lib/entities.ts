@@ -35,11 +35,20 @@ export interface Expense {
   date: string;
 }
 
+export interface Transfer {
+  id: number;
+  from_card_id: number;
+  to_card_id: number;
+  value: number;
+  date: string;
+}
+
 export const EntityTypes = {
   card: "Card",
   type: "Type",
   category: "Category",
   expense: "Expense",
+  transfer: "Transfer",
 } as const;
 
 export type EntityName = keyof typeof EntityTypes;
@@ -48,6 +57,7 @@ export type EntityType<T extends EntityName> =
   T extends "type" ? Type :
   T extends "category" ? Category :
   T extends "expense" ? Expense :
+  T extends "transfer" ? Transfer :
   never;
 
 //
