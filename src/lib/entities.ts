@@ -173,7 +173,8 @@ export async function remove(groupName: string, id: number, session?: string): P
   try {
     const response = await fetch(url, config);
     if (!response.ok) {
-      throw new Error(`Failed to delete ${groupName}: ${response.statusText}`);
+      const body = await response.json()
+      throw new Error(`Failed to delete ${groupName}: ${body.message}`);
     }
     return await response.json() as Message;
   } catch (err) {
