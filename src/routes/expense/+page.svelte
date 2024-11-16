@@ -141,7 +141,7 @@
 {/if}
 
 <div class="container mx-auto my-8 p-6 bg-gray-100 rounded-lg shadow-lg">
-  <h1 class="text-2xl font-bold mb-4 text-center">Manage Categories</h1>
+  <h1 class="text-2xl font-bold mb-4 text-center">Manage Expenses</h1>
 
   <div class="mb-8 p-6 bg-white rounded-lg shadow-md">
     <h2 class="text-xl font-semibold mb-4">
@@ -223,7 +223,7 @@
     </form>
   </div>
 
-  <h2 class="text-xl font-semibold mb-4 text-center">Categories List</h2>
+  <h2 class="text-xl font-semibold mb-4 text-center">Expenses List</h2>
   <ul class="space-y-4">
     {#each expenses as expense}
       <li
