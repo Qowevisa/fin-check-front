@@ -12,7 +12,6 @@
   let newTransfer: Partial<Transfer> = $state({
     card_id: 0,
     value: 0,
-    comment: "",
     date: "2006-01-02T15:04:05Z",
   });
 
