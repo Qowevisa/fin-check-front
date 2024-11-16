@@ -26,10 +26,20 @@ export interface Category {
   parent_id: number;
 }
 
+export interface Expense {
+  id: number;
+  card_id: number;
+  type_id: number;
+  value: number;
+  comment: string;
+  date: string;
+}
+
 export const EntityTypes = {
   card: "Card",
   type: "Type",
   category: "Category",
+  expense: "Expense",
 } as const;
 
 export type EntityName = keyof typeof EntityTypes;
@@ -37,6 +47,7 @@ export type EntityType<T extends EntityName> =
   T extends "card" ? Card :
   T extends "type" ? Type :
   T extends "category" ? Category :
+  T extends "expense" ? Expense :
   never;
 
 //
