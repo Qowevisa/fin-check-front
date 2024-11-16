@@ -123,16 +123,6 @@
     </h2>
     <form onsubmit={saveTransfer} class="space-y-4">
       <label class="block">
-        <span class="text-gray-700">Value:</span>
-        <input
-          type="text"
-          bind:value={currentTransfer.value}
-          required
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-        />
-      </label>
-
-      <label class="block">
         <span class="text-gray-700">From:</span>
         <select
           bind:value={currentTransfer.from_card_id}
@@ -158,6 +148,16 @@
             {/if}
           {/each}
         </select>
+      </label>
+
+      <label class="block">
+        <span class="text-gray-700">Value:</span>
+        <input
+          type="text"
+          bind:value={currentTransfer.value}
+          required
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+        />
       </label>
 
       <div class="flex items-center space-x-4">
