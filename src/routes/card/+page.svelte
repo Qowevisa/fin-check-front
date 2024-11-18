@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { type Card } from "$lib/entities";
+  import { NumberToFPA } from "$lib/util/fpa";
 
   let cards: Card[] = $state([]);
   let error: string | null = $state(null);
@@ -57,6 +58,12 @@
 
   function editCard(card: Card) {
     editingCard = { ...card };
+    if (balanceRef) {
+      balanceRef.value = NumberToFPA(card.balance);
+    }
+    if (creditLineRef) {
+      creditLineRef.value = NumberToFPA(card.credit_line);
+    }
   }
 
   async function deleteCard(id: number) {
@@ -73,7 +80,27 @@
     }
   }
 
+  let balanceRef: HTMLInputElement | null = $state(null);
+  let creditLineRef: HTMLInputElement | null = $state(null);
+  function handleBalanceInput(
+    event: Event & { currentTarget: EventTarget & HTMLInputElement },
+  ): void {
+    const target = event.target as HTMLInputElement;
+    const rawValue = target.value.replace(/[^0-9]/g, "");
+    currentCard.balance = parseInt(rawValue || "0");
+    target.value = NumberToFPA(currentCard.balance);
+  }
+  function handleCreditLineInput(
+    event: Event & { currentTarget: EventTarget & HTMLInputElement },
+  ): void {
+    const target = event.target as HTMLInputElement;
+    const rawValue = target.value.replace(/[^0-9]/g, "");
+    currentCard.credit_line = parseInt(rawValue || "0");
+    target.value = NumberToFPA(currentCard.credit_line);
+  }
+
   const currentCard = $derived(editingCard ?? newCard);
+  $inspect("currentCard = ", currentCard);
 </script>
 
 {#if error}
@@ -100,22 +127,13 @@
       <label class="block">
         <span class="text-gray-700">Balance:</span>
         <input
-          type="number"
-          bind:value={currentCard.balance}
+          type="text"
+          oninput={handleBalanceInput}
+          bind:this={balanceRef}
           required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
         />
       </label>
-      {#if currentCard.have_credit_line}
-        <label class="block">
-          <span class="text-gray-700">Credit Line:</span>
-          <input
-            type="number"
-            bind:value={currentCard.credit_line}
-            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-          />
-        </label>
-      {/if}
       <label class="flex items-center">
         <input
           type="checkbox"
@@ -124,6 +142,17 @@
         />
         <span class="ml-2 text-gray-700">Have Credit Line</span>
       </label>
+      {#if currentCard.have_credit_line}
+        <label class="block">
+          <span class="text-gray-700">Credit Line:</span>
+          <input
+            type="number"
+            oninput={handleCreditLineInput}
+            bind:this={creditLineRef}
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+          />
+        </label>
+      {/if}
       <div class="flex space-x-2">
         <button
           type="submit"
@@ -153,8 +182,14 @@
         <div>
           <strong class="block text-lg">{card.name}</strong>
           <div class="text-sm text-gray-600">
-            Balance: {card.balance}, Credit Line: {card.credit_line},{" "}
-            Have Credit Line: {card.have_credit_line ? "Yes" : "No"}
+            <span>
+              Balance: {NumberToFPA(card.balance)},
+            </span>
+            {#if card.have_credit_line}
+              Credit Line: {NumberToFPA(card.credit_line)}
+            {:else}
+              No Credit Line
+            {/if}
           </div>
         </div>
         <div class="flex space-x-2">

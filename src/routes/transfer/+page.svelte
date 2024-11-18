@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { type Card, type Transfer } from "$lib/entities";
   import { selectedDate } from "$lib/stores/dateStore";
+  import { NumberToFPA } from "$lib/util/fpa";
 
   let mutateDate = $state($selectedDate);
   let selectedTime = $state("00:00:00");
@@ -111,7 +112,7 @@
     const target = event.target as HTMLInputElement;
     const rawValue = target.value.replace(/[^0-9]/g, "");
     currentTransfer.value = parseInt(rawValue || "0");
-    target.value = (currentTransfer.value / 100).toFixed(2);
+    target.value = NumberToFPA(currentTransfer.value);
   }
 
   const constructedTime = $derived(`${mutateDate}T${selectedTime}Z`);
@@ -217,7 +218,7 @@
         class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
       >
         <div>
-          <strong class="block text-lg">{transfer.value}</strong>
+          <strong class="block text-lg">{NumberToFPA(transfer.value)}</strong>
           <div class="text-sm text-gray-600">
             <span class="font-bold">From:</span>
             {getCardName(transfer.from_card_id)}
