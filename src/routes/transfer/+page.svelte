@@ -29,6 +29,7 @@
       cards = await result.json();
     }
   }
+
   async function fetchCategories() {
     const result = await fetch("/api/transfer/all");
     if (!result.ok) {
@@ -104,6 +105,15 @@
     return card ? card.name : "Unknown";
   }
 
+  function handleValueInput(
+    event: Event & { currentTarget: EventTarget & HTMLInputElement },
+  ): void {
+    const target = event.target as HTMLInputElement;
+    const rawValue = target.value.replace(/[^0-9]/g, "");
+    currentTransfer.value = parseInt(rawValue || "0");
+    target.value = (currentTransfer.value / 100).toFixed(2);
+  }
+
   const constructedTime = $derived(`${mutateDate}T${selectedTime}Z`);
   const currentTransfer = $derived(editingTransfer ?? newTransfer);
   $inspect(currentTransfer);
@@ -154,7 +164,7 @@
         <span class="text-gray-700">Value:</span>
         <input
           type="text"
-          bind:value={currentTransfer.value}
+          oninput={handleValueInput}
           required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
         />
