@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { type Card, type Expense, type Type } from "$lib/entities";
   import { selectedDate } from "$lib/stores/dateStore";
+  import { NumberToFPA } from "$lib/util/fpa";
 
   let mutateDate = $state($selectedDate);
   let selectedTime = $state("00:00:00");
@@ -92,6 +93,9 @@
     const parts = expense.date.split("T");
     mutateDate = parts[0];
     selectedTime = parts[1].split("Z")[0];
+    if (valueRef) {
+      valueRef.value = NumberToFPA(expense.value);
+    }
   }
 
   async function deleteExpense(id: number) {
@@ -125,6 +129,16 @@
     return type ? type.name : "Unknown";
   }
 
+  let valueRef: HTMLInputElement | null = $state(null);
+  function handleValueInput(
+    event: Event & { currentTarget: EventTarget & HTMLInputElement },
+  ): void {
+    const target = event.target as HTMLInputElement;
+    const rawValue = target.value.replace(/[^0-9]/g, "");
+    currentExpense.value = parseInt(rawValue || "0");
+    target.value = NumberToFPA(currentExpense.value);
+  }
+
   const constructedTime = $derived(`${mutateDate}T${selectedTime}Z`);
   const currentExpense = $derived(editingExpense ?? newExpense);
   const selectedType = $derived(
@@ -152,7 +166,8 @@
         <span class="text-gray-700">Value:</span>
         <input
           type="text"
-          bind:value={currentExpense.value}
+          oninput={handleValueInput}
+          bind:this={valueRef}
           required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
         />
@@ -230,7 +245,7 @@
         class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
       >
         <div>
-          <strong class="block text-lg">{expense.value}</strong>
+          <strong class="block text-lg">{NumberToFPA(expense.value)}</strong>
           <div class="text-sm text-gray-600">
             <span class="font-bold">Card:</span>
             {getCardName(expense.card_id)}
