@@ -24,6 +24,9 @@
     Name: "Expense",
     },
     {
+    Path: "/income",
+    Name: "Income",
+    },
     Path: "/transfer",
     Name: "Transfer",
     }
