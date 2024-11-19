@@ -35,6 +35,14 @@ export interface Expense {
   date: string;
 }
 
+export interface Income {
+  id: number;
+  card_id: number;
+  value: number;
+  comment: string;
+  date: string;
+}
+
 export interface Transfer {
   id: number;
   from_card_id: number;
@@ -48,6 +56,7 @@ export const EntityTypes = {
   type: "Type",
   category: "Category",
   expense: "Expense",
+  income: "Income",
   transfer: "Transfer",
 } as const;
 
@@ -57,6 +66,7 @@ export type EntityType<T extends EntityName> =
   T extends "type" ? Type :
   T extends "category" ? Category :
   T extends "expense" ? Expense :
+  T extends "income" ? Income :
   T extends "transfer" ? Transfer :
   never;
 
