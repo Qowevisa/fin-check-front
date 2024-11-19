@@ -8,18 +8,6 @@
 
   const paths = [
     {
-    Path: "/ping",
-    Name: "ping",
-    },
-    {
-    Path: "/test",
-    Name: "test",
-    },
-    {
-    Path: "/test2",
-    Name: "test2",
-    },
-    {
     Path: "/card",
     Name: "Cards",
     },
