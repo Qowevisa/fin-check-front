@@ -30,6 +30,10 @@
     {
     Path: "/transfer",
     Name: "Transfer",
+    },
+    {
+    Path: "/payment",
+    Name: "Payment",
     }
   ]
 </script>
