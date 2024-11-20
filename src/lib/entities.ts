@@ -103,6 +103,13 @@ export interface Metric {
   short: string;
 }
 
+export interface Currency {
+  id: number;
+  name: string;
+  iso_name: string;
+  symbol: string;
+}
+
 export const EntityTypes = {
   card: "Card",
   type: "Type",
@@ -112,6 +119,7 @@ export const EntityTypes = {
   transfer: "Transfer",
   payment: "Payment",
   metric: "Metric",
+  currency: "Currency",
 } as const;
 
 export type EntityName = keyof typeof EntityTypes;
@@ -124,6 +132,7 @@ export type EntityType<T extends EntityName> =
   T extends "transfer" ? Transfer :
   T extends "payment" ? Payment :
   T extends "metric" ? Metric :
+  T extends "currency" ? Currency :
   never;
 
 //
