@@ -14,7 +14,9 @@
       return;
     }
     try {
-      const resp = await fetch("/api/auth/login", {
+      const url =
+        selected == "login" ? "/api/auth/login" : "/api/auth/register";
+      const resp = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,12 +36,31 @@
       }
     }
   }
+  let selected = $state("login");
 </script>
 
 <Toasts />
 <div class="flex justify-center items-center min-h-screen bg-gray-100">
   <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-    <h1 class="text-2xl font-bold text-center mb-6">Login</h1>
+    <div class="toggle-container">
+      <!-- Toggle Button -->
+      <div class="toggle">
+        <button
+          class:active={selected === "login"}
+          class="toggle-option"
+          onclick={() => (selected = "login")}
+        >
+          Login
+        </button>
+        <button
+          class:active={selected === "register"}
+          class="toggle-option"
+          onclick={() => (selected = "register")}
+        >
+          Register
+        </button>
+      </div>
+    </div>
     {#if error}
       <p class="text-red-500 text-center mb-4">{error}</p>
     {/if}
@@ -68,12 +89,50 @@
           placeholder="••••••••"
         />
       </div>
-      <button
-        type="submit"
-        class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-      >
-        Login
-      </button>
+      <div class="flex flex-row justify-center">
+        <button
+          type="submit"
+          class="submit-btn w-2/4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+        >
+          {selected == "login" ? "Login" : "Register"}
+        </button>
+      </div>
     </form>
   </div>
 </div>
+
+<style>
+  .toggle-container {
+    margin: 10px;
+  }
+
+  .toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ccc;
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .toggle-option {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #f3f4f6; /* Default gray */
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+
+  .toggle-option.active {
+    background-color: #3b82f6; /* Blue when selected */
+    color: white;
+  }
+
+  .submit-btn {
+    border-radius: 9999px;
+  }
+</style>
