@@ -163,17 +163,6 @@
     </h2>
     <form onsubmit={saveExpense} class="space-y-4">
       <label class="block">
-        <span class="text-gray-700">Value:</span>
-        <input
-          type="text"
-          oninput={handleValueInput}
-          bind:this={valueRef}
-          required
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-        />
-      </label>
-
-      <label class="block">
         <span class="text-gray-700">Card:</span>
         <select
           bind:value={currentExpense.card_id}
@@ -196,6 +185,27 @@
             <option value={type.id}>{type.name}</option>
           {/each}
         </select>
+      </label>
+
+      <label class="block">
+        <span class="text-gray-700">Value:</span>
+        <input
+          type="text"
+          oninput={handleValueInput}
+          bind:this={valueRef}
+          required
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+        />
+      </label>
+
+      <label class="block">
+        <span class="text-gray-700">Comment:</span>
+        <input
+          type="text"
+          bind:value={currentExpense.comment}
+          required
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+        />
       </label>
 
       <div class="flex items-center space-x-4">
