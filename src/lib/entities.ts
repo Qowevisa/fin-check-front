@@ -51,6 +51,58 @@ export interface Transfer {
   date: string;
 }
 
+export interface Payment {
+  id: number;
+  card_id: number | null;
+  category_id: number | null;
+  user_id: number | null;
+  title: string;
+  descr: string;
+  note: string;
+  date: string; // ISO 8601 format
+  items: ItemBought[];
+}
+
+export interface ItemBought {
+  id: number;
+  new_name: string;
+  new_comment: string;
+  item_id: number;
+  payment_id: number;
+  type_id: number;
+  price: number;
+  quantity: number;
+  total_cost: number;
+  metric_type: number;
+  metric_value: number;
+}
+
+export interface Item {
+  id: number;
+  category_id: number;
+  current_price_id: number;
+  type_id: number;
+  name: string;
+  comment: string;
+  metric_type: number;
+  metric_value: number;
+  proteins: number;
+  carbs: number;
+  fats: number;
+  price: number;
+}
+
+export interface ItemFilter {
+  category_id: number;
+  type_id: number;
+}
+
+export interface Metric {
+  value: number;
+  name: string;
+  short: string;
+}
+
 export const EntityTypes = {
   card: "Card",
   type: "Type",
@@ -58,6 +110,8 @@ export const EntityTypes = {
   expense: "Expense",
   income: "Income",
   transfer: "Transfer",
+  payment: "Payment",
+  metric: "Metric",
 } as const;
 
 export type EntityName = keyof typeof EntityTypes;
@@ -68,6 +122,8 @@ export type EntityType<T extends EntityName> =
   T extends "expense" ? Expense :
   T extends "income" ? Income :
   T extends "transfer" ? Transfer :
+  T extends "payment" ? Payment :
+  T extends "metric" ? Metric :
   never;
 
 //
@@ -197,6 +253,35 @@ export async function remove(groupName: string, id: number, session?: string): P
       throw new Error(`Failed to delete ${groupName}: ${body.message}`);
     }
     return await response.json() as Message;
+  } catch (err) {
+    const error = err as Error
+    return { message: error.message };
+  }
+}
+
+export async function filter<F, R>(groupName: string, data: F, session?: string): Promise<R | ErrorMessage> {
+  const url = `${BASE_API_URL}/${groupName}/filter`
+  const defaultHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  const headers = session
+    ? { ...defaultHeaders, Cookie: `session=${session}` }
+    : defaultHeaders
+
+  const config: RequestInit = {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(data)
+  };
+
+  try {
+    const response = await fetch(url, config);
+    if (!response.ok) {
+      const body = await response.json()
+      throw new Error(`Failed to update ${groupName}: ${body.message}`);
+    }
+    return await response.json() as R;
   } catch (err) {
     const error = err as Error
     return { message: error.message };
