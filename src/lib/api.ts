@@ -134,6 +134,13 @@ export async function login(username: string, password: string, cookies?: Cookie
   }, cookies);
 }
 
+export async function register(username: string, password: string, cookies?: Cookies): Promise<LoginResponse> {
+  return apiFetch<LoginResponse>('/user/register', {
+    method: 'POST',
+    body: JSON.stringify({ username, password }),
+  }, cookies);
+}
+
 // Get user data function with type annotation for the response
 export async function getUserData(token: string): Promise<UserData> {
   return apiFetch<UserData>('/user/me', {
