@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { type Card } from "$lib/entities";
+  import { type Card, type Currency } from "$lib/entities";
   import { NumberToFPA } from "$lib/util/fpa";
 
   let cards: Card[] = $state([]);
+  let currencies: Currency[] = $state([]);
   let error: string | null = $state(null);
   let editingCard: Card | null = $state(null);
   let newCard: Partial<Card> = $state({
@@ -16,6 +17,7 @@
   // Fetch all cards on page load
   onMount(async () => {
     await fetchCards();
+    await fetchCurrencies();
   });
 
   async function fetchCards() {
@@ -25,6 +27,15 @@
       error = obj.message;
     } else {
       cards = await result.json();
+    }
+  }
+  async function fetchCurrencies() {
+    const result = await fetch("/api/currency/all");
+    if (!result.ok) {
+      const obj = await result.json();
+      error = obj.message;
+    } else {
+      currencies = await result.json();
     }
   }
 
@@ -130,6 +141,28 @@
           type="text"
           oninput={handleBalanceInput}
           bind:this={balanceRef}
+          required
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+        />
+      </label>
+      <label class="block">
+        <span class="text-gray-700">Currency:</span>
+        <select
+          bind:value={currentCard.currency_id}
+          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+        >
+          {#each currencies as currency}
+            <option value={currency.id}
+              >{`${currency.symbol} (${currency.iso_name})`}</option
+            >
+          {/each}
+        </select>
+      </label>
+      <label class="block">
+        <span class="text-gray-700">Last 4 digits:</span>
+        <input
+          type="text"
+          bind:value={currentCard.last_digits}
           required
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
         />

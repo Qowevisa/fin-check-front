@@ -18,6 +18,8 @@ export interface Card {
   have_credit_line: boolean;
   id: number;
   name: string;
+  last_digits: string;
+  currency_id: number;
 }
 
 export interface Category {
