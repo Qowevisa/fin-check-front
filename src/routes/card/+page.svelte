@@ -213,7 +213,11 @@
         class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
       >
         <div>
-          <strong class="block text-lg">{card.name}</strong>
+          <strong class="text-lg">{card.name}</strong>
+          <span class="text-gray-600 text-sm">{`•${card.last_digits}`}</span>
+          <span
+            >{` ${currencies.find((curr) => curr.id == card.currency_id)?.symbol}`}</span
+          >
           <div class="text-sm text-gray-600">
             <span>
               Balance: {NumberToFPA(card.balance)},
