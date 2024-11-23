@@ -79,6 +79,8 @@
           from_card_id: 0,
           to_card_id: 0,
           value: 0,
+          to_value: 0,
+          from_value: 0,
           date: "",
         };
       }
