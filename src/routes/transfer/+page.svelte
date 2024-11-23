@@ -92,6 +92,9 @@
     const parts = transfer.date.split("T");
     mutateDate = parts[0];
     selectedTime = parts[1].split("Z")[0];
+    if (valueRef) {
+      valueRef.value = NumberToFPA(transfer.value);
+    }
   }
 
   async function deleteTransfer(id: number) {
@@ -122,6 +125,7 @@
     const rawValue = target.value.replace(/[^0-9]/g, "");
     currentTransfer.value = parseInt(rawValue || "0");
     target.value = NumberToFPA(currentTransfer.value);
+  let valueRef: HTMLInputElement | null = $state(null);
   }
 
   const constructedTime = $derived(`${mutateDate}T${selectedTime}Z`);
