@@ -112,20 +112,28 @@
   }
 
   // Helper function to get the name of the parent category
-  function getCardName(cardId: number) {
-    if (cardId === 0) return "None";
-    const card = cards.find((card) => card.id === cardId);
-    return card ? card.name : "Unknown";
+  function doesCurrentTransferHasSameCurrencies(): boolean {
+    if (currentTransfer.from_card_id == 0 || currentTransfer.to_card_id == 0) {
+      return true;
+    }
+    return (
+      cards.find((card) => card.id == currentTransfer.from_card_id)
+        ?.currency_id ==
+      cards.find((card) => card.id == currentTransfer.to_card_id)?.currency_id
+    );
   }
 
-  function handleValueInput(
-    event: Event & { currentTarget: EventTarget & HTMLInputElement },
-  ): void {
-    const target = event.target as HTMLInputElement;
-    const rawValue = target.value.replace(/[^0-9]/g, "");
-    currentTransfer.value = parseInt(rawValue || "0");
-    target.value = NumberToFPA(currentTransfer.value);
   let valueRef: HTMLInputElement | null = $state(null);
+  function createHandleValueInput(field: "value" | "from_value" | "to_value") {
+    return function (
+      event: Event & { currentTarget: EventTarget & HTMLInputElement },
+    ): void {
+      const target = event.target as HTMLInputElement;
+      const rawValue = target.value.replace(/[^0-9]/g, "");
+      const parsedValue = parseInt(rawValue || "0");
+      currentTransfer[field] = parsedValue;
+      target.value = NumberToFPA(parsedValue);
+    };
   }
 
   const constructedTime = $derived(`${mutateDate}T${selectedTime}Z`);
@@ -174,15 +182,39 @@
         </select>
       </label>
 
-      <label class="block">
-        <span class="text-gray-700">Value:</span>
-        <input
-          type="text"
-          oninput={handleValueInput}
-          required
-          class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
-        />
-      </label>
+      {#if doesCurrentTransferHasSameCurrencies()}
+        <label class="block">
+          <span class="text-gray-700">Value:</span>
+          <input
+            type="text"
+            oninput={createHandleValueInput("value")}
+            bind:this={valueRef}
+            required
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+          />
+        </label>
+      {:else}
+        <label class="block">
+          <span class="text-gray-700">From Value:</span>
+          <input
+            type="text"
+            oninput={createHandleValueInput("from_value")}
+            bind:this={valueRef}
+            required
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+          />
+        </label>
+        <label class="block">
+          <span class="text-gray-700">To Value:</span>
+          <input
+            type="text"
+            oninput={createHandleValueInput("to_value")}
+            bind:this={valueRef}
+            required
+            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
+          />
+        </label>
+      {/if}
 
       <div class="flex items-center space-x-4">
         <label>
@@ -231,18 +263,12 @@
         class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
       >
         <div>
-          <strong class="block text-lg">{NumberToFPA(transfer.value)}</strong>
+          <strong class="block text-lg">{transfer.show_value}</strong>
           <div class="text-sm text-gray-600">
             <span class="font-bold">From:</span>
-            {getCardName(transfer.from_card_id)}
-            <span class="text-sm"
-              >{`•${cards.find((card) => card.id == transfer.from_card_id)?.last_digits}`}</span
-            >
+            {transfer.from_card.display_name}
             <span class="font-bold">To:</span>
-            {getCardName(transfer.to_card_id)}
-            <span class="text-sm"
-              >{`•${cards.find((card) => card.id == transfer.to_card_id)?.last_digits}`}</span
-            >
+            {transfer.to_card.display_name}
             <span class="font-bold">Date:</span>
             {transfer.date}
           </div>
