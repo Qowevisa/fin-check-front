@@ -22,11 +22,14 @@
 
   onMount(async () => {
     await fetchCategories();
-    await fetchCards();
+    await fetchCards(true);
   });
 
-  async function fetchCards() {
-    const result = await fetch("/api/card/all");
+  async function fetchCards(preloadCurrencies = false) {
+    const queryParams = new URLSearchParams({
+      preload_currencies: preloadCurrencies.toString(),
+    });
+    const result = await fetch(`/api/card/all?${queryParams}`);
     if (!result.ok) {
       const obj = await result.json();
       error = obj.message;
