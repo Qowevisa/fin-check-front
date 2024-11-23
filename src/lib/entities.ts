@@ -20,6 +20,8 @@ export interface Card {
   name: string;
   last_digits: string;
   currency_id: number;
+  currency: Currency;
+  display_name: string;
 }
 
 export interface Category {
@@ -50,7 +52,13 @@ export interface Transfer {
   from_card_id: number;
   to_card_id: number;
   value: number;
+  from_value: number;
+  to_value: number;
   date: string;
+  show_value: string;
+  have_diff_currs: boolean;
+  from_card: Card;
+  to_card: Card;
 }
 
 export interface Payment {
