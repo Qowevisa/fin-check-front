@@ -64,6 +64,9 @@
           name: "",
         };
       }
+      if (balanceRef) {
+        balanceRef.value = "";
+      }
     }
   }
 
