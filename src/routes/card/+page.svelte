@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { type Card, type Currency } from "$lib/entities";
   import { NumberToFPA } from "$lib/util/fpa";
 
@@ -70,11 +70,12 @@
     }
   }
 
-  function editCard(card: Card) {
+  async function editCard(card: Card) {
     editingCard = { ...card };
     if (balanceRef) {
       balanceRef.value = NumberToFPA(card.balance);
     }
+    await tick();
     if (creditLineRef) {
       creditLineRef.value = NumberToFPA(card.credit_line);
     }
