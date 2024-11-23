@@ -142,8 +142,8 @@ export type EntityType<T extends EntityName> =
 //
 
 
-export async function getAll<T>(groupName: string, session?: string): Promise<T[] | ErrorMessage> {
-  const url = `${BASE_API_URL}/${groupName}/all`
+export async function getAll<T>(groupName: string, session?: string, queryParams?: string): Promise<T[] | ErrorMessage> {
+  const url = queryParams ? `${BASE_API_URL}/${groupName}/all?${queryParams}` : `${BASE_API_URL}/${groupName}/all`
   const defaultHeaders = {
     'Content-Type': 'application/json',
   };
