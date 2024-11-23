@@ -259,6 +259,9 @@
           <div class="text-sm text-gray-600">
             <span class="font-bold">Card:</span>
             {getCardName(expense.card_id)}
+            <span class="text-sm"
+              >{`•${cards.find((card) => card.id == expense.card_id)?.last_digits}`}</span
+            >
             <span class="font-bold">Type:</span>
             <span style="color: {getTypeColor(expense.type_id)};"
               >{getTypeName(expense.type_id)}</span

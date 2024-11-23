@@ -132,11 +132,6 @@
     const type = types.find((type) => type.id === typeId);
     return type ? type.color : "#000";
   }
-  function getTypeName(typeId: number) {
-    if (typeId === 0) return "None";
-    const type = types.find((card) => card.id === typeId);
-    return type ? type.name : "Unknown";
-  }
 
   // let priceRefs: Map<number,  = new Map();
   function createHandler(item: ItemBought) {
@@ -470,9 +465,12 @@
           <p>{payment.descr}</p>
           <div class="text-sm text-gray-600">
             <span class="font-bold">Card:</span>
-            {payment.card_id}
+            {getCardName(payment.card_id || 0)}
+            <span class="text-sm"
+              >{`•${cards.find((card) => card.id == payment.card_id)?.last_digits}`}</span
+            >
             <span class="font-bold">Category:</span>
-            {payment.category_id}
+            {categories.find(cat => cat.id == payment.category_id)?.name}
             <span class="font-bold">Date:</span>
             {payment.date}
           </div>

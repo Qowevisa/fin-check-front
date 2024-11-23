@@ -221,6 +221,9 @@
           <div class="text-sm text-gray-600">
             <span class="font-bold">Card:</span>
             {getCardName(income.card_id)}
+            <span class="text-sm"
+              >{`•${cards.find((card) => card.id == income.card_id)?.last_digits}`}</span
+            >
             <span class="font-bold">Date:</span>
             {income.date}
           </div>

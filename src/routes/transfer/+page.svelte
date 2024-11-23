@@ -222,8 +222,14 @@
           <div class="text-sm text-gray-600">
             <span class="font-bold">From:</span>
             {getCardName(transfer.from_card_id)}
+            <span class="text-sm"
+              >{`•${cards.find((card) => card.id == transfer.from_card_id)?.last_digits}`}</span
+            >
             <span class="font-bold">To:</span>
             {getCardName(transfer.to_card_id)}
+            <span class="text-sm"
+              >{`•${cards.find((card) => card.id == transfer.to_card_id)?.last_digits}`}</span
+            >
             <span class="font-bold">Date:</span>
             {transfer.date}
           </div>
