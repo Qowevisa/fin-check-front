@@ -11,8 +11,12 @@
   let error: string | null = $state(null);
   let editingTransfer: Transfer | null = $state(null);
   let newTransfer: Partial<Transfer> = $state({
+    from_card_id: 0,
+    to_card_id: 0,
     card_id: 0,
     value: 0,
+    to_value: 0,
+    from_value: 0,
     date: "2006-01-02T15:04:05Z",
   });
 
