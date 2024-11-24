@@ -20,7 +20,7 @@
 
   onMount(async () => {
     await fetchCategories();
-    await fetchCards();
+    await fetchCards(true);
     await fetchTypes();
   });
 
@@ -33,8 +33,12 @@
       types = await result.json();
     }
   }
-  async function fetchCards() {
-    const result = await fetch("/api/card/all");
+  async function fetchCards(preloadCurrencies = false) {
+    const queryParams = new URLSearchParams({
+      preload_currencies: preloadCurrencies.toString(),
+    });
+
+    const result = await fetch(`/api/card/all?${queryParams}`);
     if (!result.ok) {
       const obj = await result.json();
       error = obj.message;
@@ -169,7 +173,7 @@
           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
         >
           {#each cards as card}
-            <option value={card.id}>{card.name}</option>
+            <option value={card.id}>{card.display_name}</option>
           {/each}
         </select>
       </label>
@@ -255,13 +259,10 @@
         class="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
       >
         <div>
-          <strong class="block text-lg">{NumberToFPA(expense.value)}</strong>
+          <strong class="block text-lg">{expense.show_value}</strong>
           <div class="text-sm text-gray-600">
             <span class="font-bold">Card:</span>
-            {getCardName(expense.card_id)}
-            <span class="text-sm"
-              >{`•${cards.find((card) => card.id == expense.card_id)?.last_digits}`}</span
-            >
+            {expense.card.display_name}
             <span class="font-bold">Type:</span>
             <span style="color: {getTypeColor(expense.type_id)};"
               >{getTypeName(expense.type_id)}</span
