@@ -162,7 +162,7 @@
         >
           {#each cards as card}
             {#if card.id != currentTransfer.to_card_id}
-              <option value={card.id}>{card.name}</option>
+              <option value={card.id}>{card.display_name}</option>
             {/if}
           {/each}
         </select>
@@ -176,7 +176,7 @@
         >
           {#each cards as card}
             {#if card.id != currentTransfer.from_card_id}
-              <option value={card.id}>{card.name}</option>
+              <option value={card.id}>{card.display_name}</option>
             {/if}
           {/each}
         </select>
