@@ -143,6 +143,16 @@
     target.value = NumberToFPA(currentExpense.value);
   }
 
+  function getBalanceOfSelectedCardAfterExpense(): string {
+    if (currentExpense.card_id == 0 || currentExpense.value == 0) {
+      return "";
+    }
+    const selectedCard = cards.find(
+      (card) => card.id == currentExpense.card_id,
+    );
+    return `Value of ${selectedCard?.display_name} after expense = ${NumberToFPA(Number(selectedCard?.balance) - Number(currentExpense.value))}`;
+  }
+
   const constructedTime = $derived(`${mutateDate}T${selectedTime}Z`);
   const currentExpense = $derived(editingExpense ?? newExpense);
   const selectedType = $derived(
@@ -231,6 +241,7 @@
           />
         </label>
       </div>
+      <span>{getBalanceOfSelectedCardAfterExpense()}</span>
 
       <div class="flex space-x-2">
         <button
