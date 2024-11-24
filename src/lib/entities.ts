@@ -37,6 +37,8 @@ export interface Expense {
   value: number;
   comment: string;
   date: string;
+  card: Card;
+  show_value: string;
 }
 
 export interface Income {
