@@ -28,6 +28,7 @@ export interface Category {
   id: number;
   name: string;
   parent_id: number;
+  name_with_parent: string;
 }
 
 export interface Expense {
