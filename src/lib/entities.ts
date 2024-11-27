@@ -41,6 +41,20 @@ export interface Expense {
   show_value: string;
 }
 
+export interface ExpenseBulk {
+  propagate_card_id: boolean;
+  card_id: number;
+  propagate_type_id: boolean;
+  type_id: number;
+  propagate_value: boolean;
+  value: number;
+  propagate_comment: boolean;
+  comment: string;
+  propagate_date: boolean;
+  date: string;
+  children: Partial<Expense>[];
+}
+
 export interface Income {
   id: number;
   card_id: number;
@@ -132,6 +146,7 @@ export const EntityTypes = {
   payment: "Payment",
   metric: "Metric",
   currency: "Currency",
+  expense_bulk: "ExpenseBulk",
 } as const;
 
 export type EntityName = keyof typeof EntityTypes;
@@ -145,6 +160,7 @@ export type EntityType<T extends EntityName> =
   T extends "payment" ? Payment :
   T extends "metric" ? Metric :
   T extends "currency" ? Currency :
+  T extends "expense_bulk" ? ExpenseBulk :
   never;
 
 //
