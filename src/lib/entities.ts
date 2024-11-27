@@ -239,6 +239,38 @@ export async function create<T>(groupName: string, data: T, session?: string): P
   }
 }
 
+export async function bulk_create<T>(groupName: string, data: T, session?: string): Promise<Message | ErrorMessage> {
+  const url = `${BASE_API_URL}/${groupName}/bulk_create`
+  const defaultHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  const headers = session
+    ? { ...defaultHeaders, Cookie: `session=${session}` }
+    : defaultHeaders
+
+  const config: RequestInit = {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(data)
+  };
+
+  console.log(data)
+
+  try {
+    const response = await fetch(url, config);
+    if (!response.ok) {
+      const body = await response.json()
+      throw new Error(`Failed to create ${groupName}: ${body.message}`);
+    }
+    return await response.json() as Message;
+  } catch (err) {
+    const error = err as Error
+    return { message: error.message };
+  }
+}
+
+
 export async function update<T>(groupName: string, id: number, data: T, session?: string): Promise<T | ErrorMessage> {
   const url = `${BASE_API_URL}/${groupName}/edit/${id}`
   const defaultHeaders = {
