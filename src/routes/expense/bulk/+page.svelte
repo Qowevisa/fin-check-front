@@ -264,23 +264,6 @@
           </label>
         </div>
       {/if}
-      <button
-        type="button"
-        class="mb-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-        onclick={() => {
-          currentExpense.children?.push({
-            id: 0,
-            card_id: 0,
-            type_id: 0,
-            value: 0,
-            comment: "",
-            date: "",
-            show_value: "",
-          });
-        }}
-      >
-        + Add Item
-      </button>
 
       {#each (currentExpense.children as Partial<Expense>[])  as child, index}
         <div class="p-4 bg-white mb-4 rounded-lg shadow-md">
@@ -372,6 +355,24 @@
           {/if}
         </div>
       {/each}
+
+      <button
+        type="button"
+        class="mb-4 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+        onclick={() => {
+          currentExpense.children?.push({
+            id: 0,
+            card_id: 0,
+            type_id: 0,
+            value: 0,
+            comment: "",
+            date: "",
+            show_value: "",
+          });
+        }}
+      >
+        + Add Item
+      </button>
 
       <div class="flex space-x-2">
         <button
