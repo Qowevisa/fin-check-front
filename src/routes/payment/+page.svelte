@@ -207,7 +207,7 @@
         class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
       >
         {#each cards as card}
-          <option value={card.id}>{card.name}</option>
+          <option value={card.id}>{card.display_name}</option>
         {/each}
       </select>
     </label>
@@ -221,7 +221,7 @@
         class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-indigo-200 focus:border-indigo-500"
       >
         {#each categories as category}
-          <option value={category.id}>{category.name}</option>
+          <option value={category.id}>{category.name_with_parent}</option>
         {/each}
       </select>
     </label>
