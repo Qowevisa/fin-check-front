@@ -184,6 +184,10 @@
   $inspect("items", currentPayment.items)
 </script>
 
+{#if error}
+  <p class="bg-red-100 text-red-700 p-4 rounded">{error}</p>
+{/if}
+
 <div class="container mx-auto my-8 p-6 bg-gray-100 rounded-lg shadow-lg">
   <h1 class="text-2xl font-bold mb-4 text-center">Manage Payments</h1>
 
