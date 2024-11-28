@@ -117,11 +117,6 @@
   }
 
   // Helper function to get the name of the parent category
-  function getCardName(cardId: number) {
-    if (cardId === 0) return "None";
-    const card = cards.find((card) => card.id === cardId);
-    return card ? card.name : "Unknown";
-  }
   function getTypeColor(typeId: number) {
     if (typeId === 0) return "None";
     const type = types.find((card) => card.id === typeId);
