@@ -137,6 +137,17 @@ export interface Currency {
   symbol: string;
 }
 
+export interface StatsType {
+  value: number;
+  name: string;
+  color: string;
+}
+
+export interface StatsTypeCurrencyChart {
+  label: string;
+  elements: StatsType[];
+}
+
 export const EntityTypes = {
   card: "Card",
   type: "Type",
@@ -148,6 +159,9 @@ export const EntityTypes = {
   metric: "Metric",
   currency: "Currency",
   expense_bulk: "ExpenseBulk",
+  // I don't know if I should put Statistics interfaces to Entities
+  stats_type: "StatsType",
+  stats_type_currency_chart: "StatsTypeCurrencyChart",
 } as const;
 
 export type EntityName = keyof typeof EntityTypes;
@@ -162,6 +176,8 @@ export type EntityType<T extends EntityName> =
   T extends "metric" ? Metric :
   T extends "currency" ? Currency :
   T extends "expense_bulk" ? ExpenseBulk :
+  T extends "stats_type" ? StatsType :
+  T extends "stats_type_currency_chart" ? StatsTypeCurrencyChart :
   never;
 
 //
