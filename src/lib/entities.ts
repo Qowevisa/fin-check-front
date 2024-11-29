@@ -373,3 +373,31 @@ export async function filter<F, R>(groupName: string, data: F, session?: string)
     return { message: error.message };
   }
 }
+
+export async function get_stats_for<R>(groupName: string, session?: string): Promise<R | ErrorMessage> {
+  const url = `${BASE_API_URL}/statistics/${groupName}`
+  const defaultHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  const headers = session
+    ? { ...defaultHeaders, Cookie: `session=${session}` }
+    : defaultHeaders
+
+  const config: RequestInit = {
+    method: 'GET',
+    headers,
+  };
+
+  try {
+    const response = await fetch(url, config);
+    if (!response.ok) {
+      const body = await response.json()
+      throw new Error(`Failed to update ${groupName}: ${body.message}`);
+    }
+    return await response.json() as R;
+  } catch (err) {
+    const error = err as Error
+    return { message: error.message };
+  }
+}
