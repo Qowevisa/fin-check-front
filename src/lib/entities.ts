@@ -148,6 +148,28 @@ export interface StatsTypeCurrencyChart {
   elements: StatsType[];
 }
 
+// {{{ Settings section
+
+export interface SettingsTypeFilter {
+  type_id: number;
+  filter_this: boolean;
+  // For UI
+  color: string;
+  comment: string;
+  name: string;
+}
+
+export const SettingsTypes = {
+  type: "SettingsTypeFilter",
+} as const;
+
+export type SettingsName = keyof typeof SettingsTypes;
+export type SettingsType<T extends SettingsName> =
+  T extends "type" ? SettingsTypeFilter :
+  never;
+
+// }}}
+
 export const EntityTypes = {
   card: "Card",
   type: "Type",
