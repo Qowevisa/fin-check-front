@@ -423,3 +423,64 @@ export async function get_stats_for<R>(groupName: string, session?: string): Pro
     return { message: error.message };
   }
 }
+
+// {{{ Settings functions 
+
+export async function get_settings_for<R>(groupName: string, session?: string, queryParams?: string): Promise<R | ErrorMessage> {
+  const url = queryParams ? `${BASE_API_URL}/settings/${groupName}/all1${queryParams}` : `${BASE_API_URL}/settings/${groupName}/all`
+  const defaultHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  const headers = session
+    ? { ...defaultHeaders, Cookie: `session=${session}` }
+    : defaultHeaders
+
+  const config: RequestInit = {
+    method: 'GET',
+    headers,
+  };
+
+  try {
+    const response = await fetch(url, config);
+    if (!response.ok) {
+      const body = await response.json()
+      throw new Error(`Failed to update ${groupName}: ${body.message}`);
+    }
+    return await response.json() as R;
+  } catch (err) {
+    const error = err as Error
+    return { message: error.message };
+  }
+}
+
+export async function update_settings_for<T>(groupName: string, data: T, session?: string): Promise<T | ErrorMessage> {
+  const url = `${BASE_API_URL}/settings/${groupName}/update`
+  const defaultHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  const headers = session
+    ? { ...defaultHeaders, Cookie: `session=${session}` }
+    : defaultHeaders
+
+  const config: RequestInit = {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(data)
+  };
+
+  try {
+    const response = await fetch(url, config);
+    if (!response.ok) {
+      const body = await response.json()
+      throw new Error(`Failed to update ${groupName}: ${body.message}`);
+    }
+    return await response.json() as T;
+  } catch (err) {
+    const error = err as Error
+    return { message: error.message };
+  }
+}
+
+// }}}
