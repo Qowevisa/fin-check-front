@@ -8,6 +8,10 @@
 
   const paths = [
     {
+    Path: "/",
+    Name: "Home",
+    },
+    {
     Path: "/card",
     Name: "Cards",
     },
