@@ -60,9 +60,9 @@
           class="bg-gray-800 text-white p-2 rounded-md border border-gray-700"
         />
       </label>
-      <button class="bg-gray-700 text-white p-2 rounded-full">
+      <a href="/settings" class="bg-gray-700 text-white p-2 rounded-full">
         <UserIcon width="1.5em" height="1.5em" color="#f0f0f0"/>
-      </button>
+      </a>
     </div>
   </nav>
 {/if}
