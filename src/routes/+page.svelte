@@ -9,6 +9,7 @@
     type ChartConfiguration,
   } from "chart.js";
   import type { StatsTypeCurrencyChart } from "$lib/entities";
+  import { NumberToFPA } from "$lib/util/fpa";
 
   Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
@@ -33,7 +34,7 @@
             labels: chart.elements.map((type) => type.name),
             datasets: [
               {
-                label: "Chart Dataset",
+                label: chart.label,
                 data: chart.elements.map((type) => type.value / 100),
                 backgroundColor: chart.elements.map((type) => type.color),
               },
@@ -66,15 +67,23 @@
 {/if}
 
 <!-- Render canvas elements for charts -->
-<div class="w-1/2 grid grid-cols-2 gap-4">
-  {#each configs as _, index}
-    <div class="flex flex-col">
-      <div class="type-chart">
-        <canvas bind:this={canvases[index]}></canvas>
-        <span class="flex justify-center">{data[index].label}</span>
+<div class="flex items-center justify-center">
+  <div
+    class="{configs.length > 4
+      ? 'grid-cols-4'
+      : 'grid-cols-2'} w-fit grid gap-4"
+  >
+    {#each configs as _, index}
+      <div class="flex flex-col">
+        <div class="type-chart">
+          <canvas bind:this={canvases[index]}></canvas>
+          <span class="flex justify-center"
+            >{`Total: ${NumberToFPA(data[index].total)} ${data[index].label}`}</span
+          >
+        </div>
       </div>
-    </div>
-  {/each}
+    {/each}
+  </div>
 </div>
 
 <style lang="postcss">

@@ -146,6 +146,7 @@ export interface StatsType {
 export interface StatsTypeCurrencyChart {
   label: string;
   elements: StatsType[];
+  total: number;
 }
 
 // {{{ Settings section
